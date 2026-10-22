@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#100e0c">
+<title>VIDEO CHUMBANI ALL STYLE</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#100e0c;color:#f8f3e8;font-family:Arial,sans-serif;line-height:1.45}
+header{background:linear-gradient(135deg,#261a0c,#71501c);padding:25px 15px;text-align:center;border-bottom:2px solid #d9ae49}
+header h1{font-size:26px;color:#f5cf68;margin:0}
+header p{margin:7px 0 0;color:#f4e7cb;font-size:13px}
+main{max-width:700px;margin:auto;padding:15px}
+.card{background:#1e1a16;border:1px solid #4a3922;border-radius:14px;padding:16px;margin-bottom:15px}
+h2{font-size:18px;color:#f5cf68;margin-top:0}
+input,button{width:100%;padding:13px;margin:7px 0;border-radius:9px;font-size:15px}
+input{background:#100e0c;color:white;border:1px solid #655139}
+button{background:#e0b64d;color:#211707;border:0;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5}
+.secondary{background:#383027;color:#fff}
+.hidden{display:none!important}
+.muted{color:#c2b6a4;font-size:13px}
+.status{white-space:pre-wrap;font-size:14px;overflow-wrap:anywhere}
+.gold{color:#f5cf68}
+.video-item{border-top:1px solid #4a3922;padding:12px 0}
+video{width:100%;max-height:420px;background:#000;border-radius:10px}
+footer{text-align:center;padding:20px;color:#b8a78d;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+<h1>▶ VIDEO CHUMBANI</h1>
+<p>ALL STYLE • BURUDANI YAKO</p>
+<p>Tazama video kwa kutumia token zako</p>
+</header>
+
+<main>
+<section class="card" id="authBox">
+<h2 id="authTitle">Ingia kwenye akaunti</h2>
+<form id="authForm">
+<input id="fullName" placeholder="Jina lako kamili" class="hidden">
+<input id="email" type="email" placeholder="Barua pepe" required>
+<input id="password" type="password" placeholder="Password" minlength="6" required>
+<input id="phone" placeholder="Namba ya simu" class="hidden">
+<button id="authButton" type="submit">INGIA</button>
+</form>
+<button id="toggleAuth" class="secondary" type="button">Fungua akaunti mpya</button>
+<p id="authMsg" class="status"></p>
+</section>
+
+<section id="appBox" class="hidden">
+<section class="card">
+<p>Karibu, <strong id="userName">Mtumiaji</strong></p>
+<p>Token zako: <strong class="gold" id="tokenBalance">—</strong></p>
+<button id="refreshButton" class="secondary" type="button">SASISHA SALIO</button>
+<button id="logoutButton" class="secondary" type="button">TOKA KWENYE AKAUNTI</button>
+<p id="appMsg" class="status"></p>
+</section>
+
+<section class="card">
+<h2>Ongeza Token</h2>
+<p class="muted">Tuma ombi baada ya kulipa. Admin atakagua malipo na kuongeza token.</p>
+<p><strong>Namba ya malipo:</strong> Thibitisha namba rasmi kwa admin kabla ya kutuma pesa.</p>
+<form id="paymentForm">
+<input id="payerPhone" placeholder="Namba uliyotumia kulipa" required>
+<input id="amount" type="number" min="1" step="1" placeholder="Kiasi (TSh)" required>
+<input id="requestedTokens" type="number" min="1" step="1" placeholder="Idadi ya token" required>
+<input id="reference" placeholder="Namba ya kumbukumbu ya muamala" required>
+<button id="paymentButton" type="submit">TUMA OMBI LA MALIPO</button>
+</form>
+<p id="paymentMsg" class="status"></p>
+</section>
+
+<section class="card">
+<h2>Video Zilizopo</h2>
+<div id="videos">Inapakia video...</div>
+<p id="videoMsg" class="status"></p>
+<div id="playerBox" class="hidden">
+<video id="player" controls playsinline controlsList="nodownload"></video>
+<p class="muted">Link ni ya muda mfupi; hii si kinga kamili dhidi ya kurekodi skrini.</p>
+</div>
+</section>
+
+<section class="card hidden" id="adminBox">
+<h2>Paneli ya Admin</h2>
+<button id="adminLoad" type="button">ONA MAOMBI YA MALIPO</button>
+<div id="adminPayments"></div>
+<p id="adminMsg" class="status"></p>
+</section>
+</section>
+</main>
+<footer>VIDEO CHUMBANI ALL STYLE</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+"use strict";
+
+const URL = "https://xjabdtnrawuzbtseuysp.supabase.co";
+const KEY = "sb_publishable_GXNT7rJjh3Buj27kzPjkhw_IO3XYYSG";
+
+const $ = id => document.getElementById(id);
+const msg = (id, text) => { $(id).textContent = text || ""; };
+const hide = (id, value) => $(id).classList.toggle("hidden", value);
+
+let db, isSignup = false, user = null, profile = null;
+
+function errorText(e) {
+  const s = e?.message || String(e || "Hitilafu");
+  if (/failed to fetch|networkerror/i.test(s))
+    return "Imeshindwa kuunganishwa. Angalia intaneti na Supabase URL.";
+  return s;
+}
+
+async function init() {
+  if (!window.supabase?.createClient) {
+    msg("authMsg", "Supabase haijapakia. Angalia intaneti kisha refresh.");
+    return;
+  }
+  try {
+    db = window.supabase.createClient(URL, KEY);
+
+    $("authForm").addEventListener("submit", auth);
+    $("toggleAuth").addEventListener("click", toggleAuth);
+    $("logoutButton").addEventListener("click", logout);
+    $("refreshButton").addEventListener("click", loadApp);
+    $("paymentForm").addEventListener("submit", submitPayment);
+    $("adminLoad").addEventListener("click", loadAdminPayments);
+
+    const {data, error} = await db.auth.getSession();
+    if (error) throw error;
+    if (data.session) await loadApp();
+  } catch(e) {
+    msg("authMsg", "Hitilafu ya kuanza: " + errorText(e));
+  }
+}
+
+function toggleAuth() {
+  isSignup = !isSignup;
+  $("authTitle").textContent = isSignup ? "Fungua akaunti" : "Ingia kwenye akaunti";
+  $("authButton").textContent = isSignup ? "JISAJILI" : "INGIA";
+  $("toggleAuth").textContent = isSignup ? "Nina akaunti tayari — Ingia" : "Fungua akaunti mpya";
+  hide("fullName", !isSignup);
+  hide("phone", !isSignup);
+  $("fullName").required = isSignup;
+  $("phone").required = isSignup;
+  msg("authMsg", "");
+}
+
+async function auth(e) {
+  e.preventDefault();
+  const email = $("email").value.trim();
+  const password = $("password").value;
+  $("authButton").disabled = true;
+
+  try {
+    let r;
+    if (isSignup) {
+      r = await db.auth.signUp({
+        email, password,
+        options: {data: {
+          full_name: $("fullName").value.trim(),
+          phone: $("phone").value.trim()
+        }}
+      });
+    } else {
+      r = await db.auth.signInWithPassword({email, password});
+    }
+    if (r.error) throw r.error;
+
+    if (isSignup && !r.data.session) {
+      msg("authMsg", "Akaunti imetengenezwa. Thibitisha email yako kisha ingia.");
+      return;
+    }
+    await loadApp();
+  } catch(e) {
+    msg("authMsg", "Imeshindikana: " + errorText(e));
+  } finally {
+    $("authButton").disabled = false;
+  }
+}
+
+async function logout() {
+  try {
+    const {error} = await db.auth.signOut();
+    if (error) throw error;
+  } catch(e) {
+    msg("appMsg", errorText(e));
+    return;
+  }
+  user = null;
+  profile = null;
+  $("player").pause();
+  $("player").removeAttribute("src");
+  $("player").load();
+  hide("playerBox", true);
+  hide("appBox", true);
+  hide("authBox", false);
+  hide("adminBox", true);
+}
+
+async function loadApp() {
+  try {
+    const a = await db.auth.getUser();
+    if (a.error) throw a.error;
+    if (!a.data.user) {
+      hide("appBox", true);
+      hide("authBox", false);
+      return;
+    }
+
+    user = a.data.user;
+    hide("authBox", true);
+    hide("appBox", false);
+
+    const p = await db.from("profiles")
+      .select("full_name,role").eq("id", user.id).maybeSingle();
+    if (p.error) throw new Error("Profile: " + p.error.message);
+    profile = p.data;
+
+    $("userName").textContent =
+      profile?.full_name || user.email || "Mtumiaji";
+    hide("adminBox", profile?.role !== "admin");
+
+    const w = await db.from("wallets")
+      .select("tokens").eq("user_id", user.id).maybeSingle();
+    if (w.error) throw new Error("Salio: " + w.error.message);
+    $("tokenBalance").textContent = w.data?.tokens ?? 0;
+
+    await loadVideos();
+    msg("appMsg", "");
+  } catch(e) {
+    msg("appMsg", "Imeshindwa kupakia taarifa: " + errorText(e));
+  }
+}
+
+async function submitPayment(e) {
+  e.preventDefault();
+  if (!user) return msg("paymentMsg", "Ingia kwanza.");
+
+  const payer_phone = $("payerPhone").value.trim();
+  const amount_tzs = Number($("amount").value);
+  const requested_tokens = Number($("requestedTokens").value);
+  const transaction_reference = $("reference").value.trim();
+
+  if (!payer_phone || !transaction_reference ||
+      !Number.isSafeInteger(amount_tzs) || amount_tzs <= 0 ||
+      !Number.isSafeInteger(requested_tokens) || requested_tokens <= 0) {
+    return msg("paymentMsg", "Jaza taarifa zote kwa usahihi.");
+  }
+
+  $("paymentButton").disabled = true;
+  try {
+    const r = await db.from("payment_requests").insert({
+      user_id: user.id,
+      payer_phone,
+      amount_tzs,
+      requested_tokens,
+      transaction_reference
+    });
+    if (r.error) throw r.error;
+    msg("paymentMsg", "Ombi limetumwa. Subiri admin athibitishe malipo.");
+    $("paymentForm").reset();
+  } catch(e) {
+    msg("paymentMsg", "Imeshindikana: " + errorText(e));
+  } finally {
+    $("paymentButton").disabled = false;
+  }
+}
+
+async function loadVideos() {
+  const area = $("videos");
+  area.textContent = "Inapakia video...";
+
+  try {
+    const r = await db.from("videos")
+      .select("id,title,description,token_cost")
+      .eq("is_published", true)
+      .order("created_at", {ascending:false});
+    if (r.error) throw r.error;
+
+    if (!r.data?.length) {
+      area.textContent = "Bado hakuna video zilizochapishwa.";
+      return;
+    }
+
+    area.replaceChildren();
+    r.data.forEach(v => {
+      const item = document.createElement("div");
+      item.className = "video-item";
+
+      const title = document.createElement("h3");
+      title.textContent = v.title || "Video";
+
+      const desc = document.createElement("p");
+      desc.className = "muted";
+      desc.textContent = v.description || "";
+
+      const cost = document.createElement("p");
+      cost.className = "gold";
+      cost.textContent = "Gharama: " + v.token_cost + " token";
+
+      const btn = document.createElement("button");
+      btn.textContent = "TAZAMA VIDEO";
+      btn.addEventListener("click", () => watchVideo(v.id));
+
+      item.append(title, desc, cost, btn);
+      area.appendChild(item);
+    });
+  } catch(e) {
+    area.textContent = "Hitilafu ya video: " + errorText(e);
+  }
+}
+
+async function watchVideo(videoId) {
+  msg("videoMsg", "Inakagua token zako...");
+  hide("playerBox", true);
+  $("player").pause();
+  $("player").removeAttribute("src");
+  $("player").load();
+
+  try {
+    const s = await db.auth.getSession();
+    if (s.error) throw s.error;
+    if (!s.data.session) throw new Error("Ingia kwanza.");
+
+    const r = await db.functions.invoke("watch-video", {
+      body: {video_id: videoId}
+    });
+    if (r.error) throw r.error;
+    if (!r.data?.success || !r.data?.playback_url)
+      throw new Error(r.data?.error || "Ruhusa ya video haijapatikana.");
+
+    $("player").src = r.data.playback_url;
+    hide("playerBox", false);
+    msg("videoMsg", "Video imefunguliwa. Link ni ya muda mfupi.");
+    $("player").play().catch(() => {});
+    await loadApp();
+  } catch(e) {
+    msg("videoMsg", "Imeshindikana kufungua video: " + errorText(e));
+  }
+}
+
+async function loadAdminPayments() {
+  if (profile?.role !== "admin")
+    return msg("adminMsg", "Huna ruhusa ya admin.");
+
+  const area = $("adminPayments");
+  area.textContent = "Inapakia maombi...";
+
+  try {
+    const r = await db.rpc("admin_get_video_token_payments");
+    if (r.error) throw r.error;
+    if (!r.data?.length) {
+      area.textContent = "Hakuna maombi ya malipo.";
+      return;
+    }
+
+    area.replaceChildren();
+    r.data.forEach(p => {
+      const item = document.createElement("div");
+      item.className = "video-item";
+      const info = document.createElement("p");
+      info.textContent =
+        (p.full_name || "Mtumiaji") +
+        " | TSh " + p.amount_tzs +
+        " | Token: " + p.requested_tokens +
+        " | Simu: " + p.payer_phone +
+        " | Ref: " + p.transaction_reference +
+        " | Hali: " + p.status;
+      item.appendChild(info);
+
+      if (p.status === "pending") {
+        const approve = document.createElement("button");
+        approve.textContent = "THIBITISHA MALIPO";
+        approve.addEventListener("click", () =>
+          reviewPayment(p.payment_id, "approve"));
+
+        const reject = document.createElement("button");
+        reject.className = "secondary";
+        reject.textContent = "KATAA OMBI";
+        reject.addEventListener("click", () =>
+          reviewPayment(p.payment_id, "reject"));
+
+        item.append(approve, reject);
+      }
+      area.appendChild(item);
+    });
+  } catch(e) {
+    area.textContent = "Hitilafu: " + errorText(e);
+  }
+}
+
+async function reviewPayment(paymentId, decision) {
+  const question = decision === "approve"
+    ? "Umethibitisha fedha zimeingia kweli?"
+    : "Unataka kukataa ombi hili?";
+  if (!confirm(question)) return;
+
+  try {
+    const r = await db.rpc("admin_review_payment", {
+      p_payment_id: paymentId,
+      p_decision: decision
+    });
+    if (r.error) throw r.error;
+
+    msg("adminMsg", r.data?.message || "Ombi limeshughulikiwa.");
+    await loadAdminPayments();
+    await loadApp();
+  } catch(e) {
+    msg("adminMsg", "Hitilafu: " + errorText(e));
+  }
+}
+
+window.addEventListener("error", e => {
+  if (e.message) console.error("JavaScript error:", e.message);
+});
+
+init();
+})();
+</script>
+</body>
+</html>
+
