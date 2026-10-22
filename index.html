@@ -84,6 +84,60 @@ footer{text-align:center;padding:20px;color:#b8a78d;font-size:12px}
 
 <section class="card hidden" id="adminBox">
 <h2>Paneli ya Admin</h2>
+  
+<section class="video-item">
+  <h2>ONGEZA VIDEO MPYA</h2>
+
+  <form id="addVideoForm">
+    <label for="newVideoTitle">Jina la video</label>
+    <input
+      id="newVideoTitle"
+      type="text"
+      placeholder="Mfano: Filamu mpya"
+      required
+    >
+
+    <label for="newVideoImage">Link ya picha ya video</label>
+    <input
+      id="newVideoImage"
+      type="url"
+      placeholder="https://example.com/picha.jpg"
+      required
+    >
+
+    <label for="newVideoUrl">Link ya video</label>
+    <input
+      id="newVideoUrl"
+      type="url"
+      placeholder="https://example.com/video.mp4"
+      required
+    >
+
+    <label for="newVideoCost">Gharama ya kutazama (tokens)</label>
+    <input
+      id="newVideoCost"
+      type="number"
+      min="1"
+      step="1"
+      value="1"
+      required
+    >
+
+    <label for="newVideoDescription">Maelezo ya video</label>
+    <input
+      id="newVideoDescription"
+      type="text"
+      placeholder="Maelezo mafupi"
+    >
+
+    <button id="addVideoButton" type="submit">
+      HIFADHI VIDEO
+    </button>
+  </form>
+
+  <p id="addVideoMsg" class="status"></p>
+</section>
+
 <button id="adminLoad" type="button">ONA MAOMBI YA MALIPO</button>
 <div id="adminPayments"></div>
 <p id="adminMsg" class="status"></p>
