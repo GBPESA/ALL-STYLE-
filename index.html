@@ -455,6 +455,24 @@ async function watchVideo(videoId) {
 
     const videoUrl =
       result.video_url || result.signedUrl || result.url;
+    // Sasisha salio la tokeni mara moja
+const tokensLeft = result.tokens_left;
+
+if (tokensLeft !== undefined && tokensLeft !== null) {
+  const tokenElements = [
+    "tokenBalance",
+    "userTokens",
+    "tokensBalance"
+  ];
+
+  for (const id of tokenElements) {
+    const el = document.getElementById(id);
+
+    if (el) {
+      el.textContent = tokensLeft;
+    }
+  }
+}
 
     if (!videoUrl) {
       msg.textContent = "URL ya video haijapatikana.";
