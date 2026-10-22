@@ -291,20 +291,33 @@ async function loadApp() {
 
 async function submitPayment(e) {
   e.preventDefault();
-  if (!user) return msg("paymentMsg", "Ingia kwanza.");
+
+  if (!user) {
+    return msg("paymentMsg", "Ingia kwanza.");
+  }
 
   const payer_phone = $("payerPhone").value.trim();
   const amount_tzs = Number($("amount").value);
-  const requested_tokens = Number($("requestedTokens").value);
   const transaction_reference = $("reference").value.trim();
 
-  if (!payer_phone || !transaction_reference ||
-      !Number.isSafeInteger(amount_tzs) || amount_tzs <= 0 ||
-      !Number.isSafeInteger(requested_tokens) || requested_tokens <= 0) {
-    return msg("paymentMsg", "Jaza taarifa zote kwa usahihi.");
+  if (
+    !payer_phone ||
+    !transaction_reference ||
+    !Number.isSafeInteger(amount_tzs) ||
+    amount_tzs < 1000 ||
+    amount_tzs % 1000 !== 0
+  ) {
+    return msg(
+      "paymentMsg",
+      "Weka namba ya simu, reference halisi, na kiasi kuanzia TSh 1,000 katika mafungu ya TSh 1,000."
+    );
   }
 
+  // TSh 1,000 = tokeni 10
+  const requested_tokens = (amount_tzs / 100) * 1;
+
   $("paymentButton").disabled = true;
+
   try {
     const r = await db.from("payment_requests").insert({
       user_id: user.id,
@@ -313,10 +326,17 @@ async function submitPayment(e) {
       requested_tokens,
       transaction_reference
     });
+
     if (r.error) throw r.error;
-    msg("paymentMsg", "Ombi limetumwa. Subiri admin athibitishe malipo.");
+
+    msg(
+      "paymentMsg",
+      `Ombi limetumwa. Ukithibitishiwa malipo ya TSh ${amount_tzs.toLocaleString("en-US")}, utapata tokeni ${requested_tokens}.`
+    );
+
     $("paymentForm").reset();
-  } catch(e) {
+
+  } catch (e) {
     msg("paymentMsg", "Imeshindikana: " + errorText(e));
   } finally {
     $("paymentButton").disabled = false;
@@ -419,7 +439,6 @@ async function loadAdminPayments() {
       info.textContent =
         (p.full_name || "Mtumiaji") +
         " | TSh " + p.amount_tzs +
-        " | Token: " + p.requested_tokens +
         " | Simu: " + p.payer_phone +
         " | Ref: " + p.transaction_reference +
         " | Hali: " + p.status;
