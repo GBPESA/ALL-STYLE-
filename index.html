@@ -73,15 +73,27 @@ footer{text-align:center;padding:20px;color:#b8a78d;font-size:12px}
 </section>
 
 <section class="card">
+
 <h2>Video Zilizopo</h2>
+
 <div id="videos">Inapakia video...</div>
+
 <p id="videoMsg" class="status"></p>
+
 <div id="playerBox" class="hidden">
-<video id="player" controls playsinline controlsList="nodownload"></video>
-<p class="muted">Link ni ya muda mfupi; hii si kinga kamili dhidi ya kurekodi skrini.</p>
-<div id="videoPlayerContainer"></div>
+  <video
+    id="player"
+    controls
+    playsinline
+    controlsList="nodownload"
+  ></video>
+
+  <p class="muted">
+    Link ni ya muda mfupi; hii si kinga kamili dhidi ya kurekodi skrini.
+  </p>
 </div>
 </section>
+
 
 <section class="card hidden" id="adminBox">
 <h2>Paneli ya Admin</h2>
@@ -123,7 +135,6 @@ footer{text-align:center;padding:20px;color:#b8a78d;font-size:12px}
       value="1"
       required
     >
-
     <label for="newVideoDescription">Maelezo ya video</label>
     <input
       id="newVideoDescription"
@@ -389,18 +400,33 @@ async function loadVideos() {
 }
 
 
+
 async function watchVideo(videoId) {
+  const playerBox = document.getElementById("playerBox");
+  const player = document.getElementById("player");
+  const msg = document.getElementById("videoMsg");
+
   try {
     if (!user) {
-      alert("Tafadhali ingia kwenye akaunti kwanza.");
+      msg.textContent = "Tafadhali ingia kwenye akaunti kwanza.";
       return;
     }
 
-    const { data: sessionData } = await db.auth.getSession();
+    msg.textContent = "Inafungua video...";
+    playerBox.classList.add("hidden");
+    player.pause();
+    player.removeAttribute("src");
+    player.load();
+
+    const { data: sessionData, error: sessionError } =
+      await db.auth.getSession();
+
+    if (sessionError) throw sessionError;
+
     const session = sessionData?.session;
 
     if (!session?.access_token) {
-      alert("Session imeisha. Ingia tena.");
+      msg.textContent = "Session imeisha. Ingia tena kwenye akaunti.";
       return;
     }
 
@@ -413,9 +439,7 @@ async function watchVideo(videoId) {
           "Authorization": "Bearer " + session.access_token,
           "apikey": "sb_publishable_GXNT7rJjh3Buj27kzPjkhw_IO3XYYSG"
         },
-        body: JSON.stringify({
-          video_id: videoId
-        })
+        body: JSON.stringify({ video_id: videoId })
       }
     );
 
@@ -423,10 +447,9 @@ async function watchVideo(videoId) {
 
     if (!response.ok || !result.success) {
       console.error("Watch video error:", result);
-      alert(
+      msg.textContent =
         "Imeshindikana kufungua video: " +
-        (result.error || result.message || "Hitilafu isiyojulikana")
-      );
+        (result.error || result.message || "Hitilafu isiyojulikana");
       return;
     }
 
@@ -434,43 +457,30 @@ async function watchVideo(videoId) {
       result.video_url || result.signedUrl || result.url;
 
     if (!videoUrl) {
-      alert("URL ya video haijapatikana.");
+      msg.textContent = "URL ya video haijapatikana.";
       return;
     }
 
-    const player = document.createElement("video");
-    player.controls = true;
-    player.autoplay = true;
-    player.playsInline = true;
+    player.src = videoUrl;
     player.style.width = "100%";
     player.style.maxWidth = "480px";
     player.style.borderRadius = "12px";
 
-    player.src = videoUrl;
+    playerBox.classList.remove("hidden");
+    msg.textContent = "Video imefunguliwa. Bonyeza Play ikiwa haijaanza.";
 
-    player.onerror = () => {
-      console.error("Video playback error:", player.error);
-      alert("Video imepatikana lakini imeshindwa kuchezwa.");
-    };
-
-    const container =
-      document.getElementById("videoPlayerContainer");
-
-    if (!container) {
-      alert("Sehemu ya kuonyesha video haijapatikana.");
-      return;
-    }
-
-    container.replaceChildren(player);
     player.load();
 
-    player.play().catch(error => {
-      console.log("Autoplay imezuiwa; bonyeza Play:", error);
-    });
+    try {
+      await player.play();
+    } catch (playError) {
+      console.log("Bonyeza Play kuanza video:", playError);
+    }
 
   } catch (error) {
     console.error("Watch video exception:", error);
-    alert("Hitilafu: " + (error.message || error));
+    msg.textContent =
+      "Hitilafu: " + (error.message || "Imeshindwa kufungua video.");
   }
 }
 
