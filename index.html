@@ -79,6 +79,7 @@ footer{text-align:center;padding:20px;color:#b8a78d;font-size:12px}
 <div id="playerBox" class="hidden">
 <video id="player" controls playsinline controlsList="nodownload"></video>
 <p class="muted">Link ni ya muda mfupi; hii si kinga kamili dhidi ya kurekodi skrini.</p>
+<div id="videoPlayerContainer"></div>
 </div>
 </section>
 
@@ -387,32 +388,89 @@ async function loadVideos() {
   }
 }
 
+
 async function watchVideo(videoId) {
-  msg("videoMsg", "Inakagua token zako...");
-  hide("playerBox", true);
-  $("player").pause();
-  $("player").removeAttribute("src");
-  $("player").load();
-
   try {
-    const s = await db.auth.getSession();
-    if (s.error) throw s.error;
-    if (!s.data.session) throw new Error("Ingia kwanza.");
+    if (!user) {
+      alert("Tafadhali ingia kwenye akaunti kwanza.");
+      return;
+    }
 
-    const r = await db.functions.invoke("watch-video", {
-      body: {video_id: videoId}
+    const { data: sessionData } = await db.auth.getSession();
+    const session = sessionData?.session;
+
+    if (!session?.access_token) {
+      alert("Session imeisha. Ingia tena.");
+      return;
+    }
+
+    const response = await fetch(
+      "https://xjabdtnrawuzbtseuysp.supabase.co/functions/v1/watch-video-v2",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + session.access_token,
+          "apikey": "sb_publishable_GXNT7rJjh3Buj27kzPjkhw_IO3XYYSG"
+        },
+        body: JSON.stringify({
+          video_id: videoId
+        })
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      console.error("Watch video error:", result);
+      alert(
+        "Imeshindikana kufungua video: " +
+        (result.error || result.message || "Hitilafu isiyojulikana")
+      );
+      return;
+    }
+
+    const videoUrl =
+      result.video_url || result.signedUrl || result.url;
+
+    if (!videoUrl) {
+      alert("URL ya video haijapatikana.");
+      return;
+    }
+
+    const player = document.createElement("video");
+    player.controls = true;
+    player.autoplay = true;
+    player.playsInline = true;
+    player.style.width = "100%";
+    player.style.maxWidth = "480px";
+    player.style.borderRadius = "12px";
+
+    player.src = videoUrl;
+
+    player.onerror = () => {
+      console.error("Video playback error:", player.error);
+      alert("Video imepatikana lakini imeshindwa kuchezwa.");
+    };
+
+    const container =
+      document.getElementById("videoPlayerContainer");
+
+    if (!container) {
+      alert("Sehemu ya kuonyesha video haijapatikana.");
+      return;
+    }
+
+    container.replaceChildren(player);
+    player.load();
+
+    player.play().catch(error => {
+      console.log("Autoplay imezuiwa; bonyeza Play:", error);
     });
-    if (r.error) throw r.error;
-    if (!r.data?.success || !r.data?.playback_url)
-      throw new Error(r.data?.error || "Ruhusa ya video haijapatikana.");
 
-    $("player").src = r.data.playback_url;
-    hide("playerBox", false);
-    msg("videoMsg", "Video imefunguliwa. Link ni ya muda mfupi.");
-    $("player").play().catch(() => {});
-    await loadApp();
-  } catch(e) {
-    msg("videoMsg", "Imeshindikana kufungua video: " + errorText(e));
+  } catch (error) {
+    console.error("Watch video exception:", error);
+    alert("Hitilafu: " + (error.message || error));
   }
 }
 
