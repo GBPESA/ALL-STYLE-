@@ -839,9 +839,18 @@ $("addVideoForm").addEventListener("submit", async e => {
       }
     };
 
-    if (!validUrl(image)) {
-      throw new Error("Link ya picha si sahihi.");
-    }
+    
+const image = String(v.image || "").trim();
+const videoUrl = String(v.video || "").trim();
+
+if (!/^https?:\/\/\S+$/i.test(image)) {
+  throw new Error("Weka link sahihi ya picha.");
+}
+
+if (!/^https?:\/\/\S+$/i.test(videoUrl)) {
+  throw new Error("Weka link sahihi ya video.");
+}
+
 
     if (!validUrl(videoUrl)) {
       throw new Error("Link ya video si sahihi.");
