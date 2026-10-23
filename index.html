@@ -398,15 +398,17 @@ async function submitPayment(e) {
   }
 }
 
+
 async function loadVideos() {
   const area = $("videos");
   area.textContent = "Inapakia video...";
 
   try {
     const r = await db.from("videos")
-      .select("id,title,description,token_cost")
+      .select("id,title,description,token_cost,thumbnail_url")
       .eq("is_published", true)
-      .order("created_at", {ascending:false});
+      .order("created_at", { ascending: false });
+
     if (r.error) throw r.error;
 
     if (!r.data?.length) {
@@ -415,9 +417,33 @@ async function loadVideos() {
     }
 
     area.replaceChildren();
+
     r.data.forEach(v => {
       const item = document.createElement("div");
       item.className = "video-item";
+
+      const imageUrl = (v.thumbnail_url || "").trim();
+
+      if (imageUrl) {
+        const img = document.createElement("img");
+        img.src = imageUrl;
+        img.alt = v.title || "Picha ya video";
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.style.width = "100%";
+        img.style.aspectRatio = "16 / 9";
+        img.style.objectFit = "cover";
+        img.style.borderRadius = "10px";
+        img.style.display = "block";
+        img.style.background = "#000";
+
+        img.onerror = () => {
+          img.alt = "Picha haikupatikana";
+          img.style.display = "none";
+        };
+
+        item.appendChild(img);
+      }
 
       const title = document.createElement("h3");
       title.textContent = v.title || "Video";
@@ -428,16 +454,18 @@ async function loadVideos() {
 
       const cost = document.createElement("p");
       cost.className = "gold";
-      cost.textContent = "Gharama: " + v.token_cost + " token";
+      cost.textContent = "Gharama: " + v.token_cost + " tokeni";
 
       const btn = document.createElement("button");
-      btn.textContent = "TAZAMA VIDEO";
+      btn.type = "button";
+      btn.textContent = "▶ TAZAMA VIDEO • " + v.token_cost + " TOKENI";
       btn.addEventListener("click", () => watchVideo(v.id));
 
       item.append(title, desc, cost, btn);
       area.appendChild(item);
     });
-  } catch(e) {
+
+  } catch (e) {
     area.textContent = "Hitilafu ya video: " + errorText(e);
   }
 }
