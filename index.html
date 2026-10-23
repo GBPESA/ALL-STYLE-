@@ -96,56 +96,97 @@ footer{text-align:center;padding:20px;color:#b8a78d;font-size:12px}
 
 
 <section class="card hidden" id="adminBox">
-<h2>Paneli ya Admin</h2>
-  
-<section class="video-item">
-  <h2>ONGEZA VIDEO MPYA</h2>
+  <h2>Paneli ya Admin</h2>
 
-  <form id="addVideoForm">
-    <label for="newVideoTitle">Jina la video</label>
-    <input
-      id="newVideoTitle"
-      type="text"
-      placeholder="Mfano: Filamu mpya"
-      required
-    >
+  <!-- ONGEZA VIDEO -->
+  <section class="video-item">
+    <h2>ONGEZA VIDEO MPYA</h2>
 
-    <label for="newVideoImage">Link ya picha ya video</label>
-    <input
-      id="newVideoImage"
-      type="url"
-      placeholder="https://example.com/picha.jpg"
-      required
-    >
+    <form id="addVideoForm">
+      <label for="newVideoTitle">Jina la video</label>
+      <input id="newVideoTitle" type="text"
+        placeholder="Mfano: Filamu mpya" required>
 
-    <label for="newVideoUrl">Link ya video</label>
-    <input
-      id="newVideoUrl"
-      type="url"
-      placeholder="https://example.com/video.mp4"
-      required
-    >
+      <label for="newVideoImage">Link ya picha ya video</label>
+      <input id="newVideoImage" type="url"
+        placeholder="https://example.com/picha.jpg" required>
 
-    <label for="newVideoCost">Gharama ya kutazama (tokens)</label>
-    <input
-      id="newVideoCost"
-      type="number"
-      min="1"
-      step="1"
-      value="1"
-      required
-    >
-    <label for="newVideoDescription">Maelezo ya video</label>
-    <input
-      id="newVideoDescription"
-      type="text"
-      placeholder="Maelezo mafupi"
-    >
+      <label for="newVideoUrl">Link ya video</label>
+      <input id="newVideoUrl" type="url"
+        placeholder="https://example.com/video.mp4" required>
 
-    <button id="addVideoButton" type="submit">
-      HIFADHI VIDEO
+      <label for="newVideoCost">Gharama ya kutazama (tokens)</label>
+      <input id="newVideoCost" type="number"
+        min="1" step="1" value="1" required>
+
+      <label for="newVideoDescription">Maelezo ya video</label>
+      <input id="newVideoDescription" type="text"
+        placeholder="Maelezo mafupi">
+
+      <button id="addVideoButton" type="submit">
+        HIFADHI VIDEO
+      </button>
+    </form>
+
+    <p id="addVideoMsg" class="status"></p>
+  </section>
+
+  <!-- ORODHA YA VIDEO -->
+  <section class="video-item" id="adminVideoManager">
+    <h2>SIMAMIA VIDEO ZANGU</h2>
+
+    <button type="button" id="refreshAdminVideos">
+      PAKIA ORODHA UPYA
     </button>
-  </form>
+
+    <p id="adminVideoMsg" class="status"></p>
+    <div id="adminVideosList">
+      Video ulizoweka zitaonekana hapa.
+    </div>
+  </section>
+
+  <!-- FOMU YA KUHARIRI -->
+  <section class="video-item hidden" id="editVideoBox">
+    <h2>HARIRI VIDEO</h2>
+
+    <form id="editVideoForm">
+      <input type="hidden" id="editVideoId">
+
+      <label for="editVideoTitle">Jina la video</label>
+      <input id="editVideoTitle" type="text" required>
+
+      <label for="editVideoImage">Link ya picha</label>
+      <input id="editVideoImage" type="url"
+        placeholder="https://example.com/picha.jpg">
+
+      <label for="editVideoUrl">Link ya video</label>
+      <input id="editVideoUrl" type="url" required>
+
+      <label for="editVideoCost">Gharama ya tokeni</label>
+      <input id="editVideoCost" type="number"
+        min="1" step="1" required>
+
+      <label for="editVideoDescription">Maelezo</label>
+      <input id="editVideoDescription" type="text">
+
+      <label for="editVideoPublished">Hali ya video</label>
+      <select id="editVideoPublished">
+        <option value="true">Imechapishwa — ionekane</option>
+        <option value="false">Imefichwa — isionekane</option>
+      </select>
+
+      <button type="submit" id="saveVideoChanges">
+        HIFADHI MABADILIKO
+      </button>
+
+      <button type="button" id="cancelEditVideo">
+        GHAIRI
+      </button>
+    </form>
+
+    <p id="editVideoMsg" class="status"></p>
+  </section>
+</section>
 
   <p id="addVideoMsg" class="status"></p>
 </section>
