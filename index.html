@@ -98,35 +98,37 @@ footer{text-align:center;padding:20px;color:#b8a78d;font-size:12px}
 <section class="card hidden" id="adminBox">
   <h2>Paneli ya Admin</h2>
 
-  <!-- ONGEZA VIDEO -->
-  <section class="video-item">
-    <h2>ONGEZA VIDEO MPYA</h2>
+  
+<!-- ONGEZA VIDEO KWA KUBANDIKA CODE -->
+<section class="video-item">
+  <h2>ONGEZA VIDEO KWA CODE</h2>
 
-    <form id="addVideoForm">
-      <label for="newVideoTitle">Jina la video</label>
-      <input id="newVideoTitle" type="text"
-        placeholder="Mfano: Filamu mpya" required>
+  <p>Bandika code ya video hapa, kisha bonyeza HIFADHI VIDEO.</p>
 
-      <label for="newVideoImage">Link ya picha ya video</label>
-      <input id="newVideoImage" type="url"
-        placeholder="https://example.com/picha.jpg" required>
+  <form id="addVideoForm">
+    <label for="newVideoCode">CODE YA VIDEO</label>
 
-      <label for="newVideoUrl">Link ya video</label>
-      <input id="newVideoUrl" type="url"
-        placeholder="https://example.com/video.mp4" required>
+    <textarea
+      id="newVideoCode"
+      rows="12"
+      placeholder='{
+  "title": "Filamu mpya",
+  "image": "https://example.com/picha.jpg",
+  "video": "https://example.com/video.mp4",
+  "cost": 50,
+  "description": "Maelezo ya video"
+}'
+      required
+    ></textarea>
 
-      <label for="newVideoCost">Gharama ya kutazama (tokens)</label>
-      <input id="newVideoCost" type="number"
-        min="1" step="1" value="1" required>
+    <button id="addVideoButton" type="submit">
+      HIFADHI VIDEO
+    </button>
+  </form>
 
-      <label for="newVideoDescription">Maelezo ya video</label>
-      <input id="newVideoDescription" type="text"
-        placeholder="Maelezo mafupi">
+  <p id="addVideoMsg" class="status"></p>
+</section>
 
-      <button id="addVideoButton" type="submit">
-        HIFADHI VIDEO
-      </button>
-    </form>
 
     <p id="addVideoMsg" class="status"></p>
   </section>
