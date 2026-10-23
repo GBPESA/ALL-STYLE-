@@ -329,7 +329,9 @@ async function loadApp() {
     $("userName").textContent =
       profile?.full_name || user.email || "Mtumiaji";
     hide("adminBox", profile?.role !== "admin");
-
+    if (profile?.role === "admin") {
+  await loadAdminVideos();
+  }
     const w = await db.from("wallets")
       .select("tokens").eq("user_id", user.id).maybeSingle();
     if (w.error) throw new Error("Salio: " + w.error.message);
@@ -612,6 +614,208 @@ async function reviewPayment(paymentId, decision) {
     msg("adminMsg", "Hitilafu: " + errorText(e));
   }
 }
+
+  // ===== USIMAMIZI WA VIDEO KWA ADMIN =====
+
+  async function loadAdminVideos() {
+    if (profile?.role !== "admin") {
+      msg("adminVideoMsg", "Huna ruhusa ya admin.");
+      return;
+    }
+
+    const area = $("adminVideosList");
+    area.textContent = "Inapakia video...";
+
+    try {
+      const r = await db.from("videos")
+        .select("id,title,description,token_cost,is_published,thumbnail_url,video_url,storage_path,stream_uid")
+        .order("created_at", { ascending: false });
+
+      if (r.error) throw r.error;
+
+      area.replaceChildren();
+
+      if (!r.data?.length) {
+        area.textContent = "Bado hakuna video.";
+        return;
+      }
+
+      r.data.forEach(v => {
+        const item = document.createElement("div");
+        item.className = "video-item";
+
+        const title = document.createElement("h3");
+        title.textContent = v.title;
+
+        const status = document.createElement("p");
+        status.className = "muted";
+        status.textContent =
+          "Tokeni: " + v.token_cost + " | " +
+          (v.is_published ? "Imechapishwa" : "Imefichwa");
+
+        const edit = document.createElement("button");
+        edit.type = "button";
+        edit.textContent = "HARIRI VIDEO";
+        edit.addEventListener("click", () => {
+          $("editVideoId").value = v.id;
+          $("editVideoTitle").value = v.title || "";
+          $("editVideoImage").value = v.thumbnail_url || "";
+          $("editVideoUrl").value = v.video_url || "";
+          $("editVideoCost").value = v.token_cost || 1;
+          $("editVideoDescription").value = v.description || "";
+          $("editVideoPublished").value = String(v.is_published);
+          hide("editVideoBox", false);
+          msg("editVideoMsg", "");
+          $("editVideoBox").scrollIntoView({ behavior: "smooth" });
+        });
+
+        const del = document.createElement("button");
+        del.type = "button";
+        del.className = "secondary";
+        del.textContent = "FUTA VIDEO";
+        del.addEventListener("click", async () => {
+          if (!confirm("Una uhakika unataka kufuta video hii?")) return;
+
+          del.disabled = true;
+          try {
+            const result = await db.from("videos")
+              .delete()
+              .eq("id", v.id)
+              .select("id");
+
+            if (result.error) throw result.error;
+            if (!result.data?.length) {
+              throw new Error("Haijafutwa. Hakikisha ruhusa za admin kwenye Supabase zinaruhusu.");
+            }
+
+            msg("adminVideoMsg", "Video imefutwa kwenye orodha.");
+            hide("editVideoBox", true);
+            await loadAdminVideos();
+            await loadVideos();
+          } catch (e) {
+            msg("adminVideoMsg", "Imeshindikana kufuta: " + errorText(e));
+          } finally {
+            del.disabled = false;
+          }
+        });
+
+        item.append(title, status, edit, del);
+        area.appendChild(item);
+      });
+
+      msg("adminVideoMsg", "");
+    } catch (e) {
+      area.textContent = "Hitilafu: " + errorText(e);
+    }
+  }
+
+  $("refreshAdminVideos").addEventListener("click", loadAdminVideos);
+
+  $("cancelEditVideo").addEventListener("click", () => {
+    hide("editVideoBox", true);
+    msg("editVideoMsg", "");
+  });
+
+  $("editVideoForm").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    if (profile?.role !== "admin") {
+      msg("editVideoMsg", "Huna ruhusa ya admin.");
+      return;
+    }
+
+    const id = $("editVideoId").value;
+    const title = $("editVideoTitle").value.trim();
+    const image = $("editVideoImage").value.trim();
+    const videoUrl = $("editVideoUrl").value.trim();
+    const cost = Number($("editVideoCost").value);
+    const description = $("editVideoDescription").value.trim();
+    const published = $("editVideoPublished").value === "true";
+
+    if (!title || !Number.isSafeInteger(cost) || cost < 1) {
+      msg("editVideoMsg", "Weka jina na gharama sahihi ya tokeni.");
+      return;
+    }
+
+    const button = $("saveVideoChanges");
+    button.disabled = true;
+
+    try {
+      const result = await db.from("videos")
+        .update({
+          title,
+          thumbnail_url: image || null,
+          video_url: videoUrl,
+          token_cost: cost,
+          description,
+          is_published: published
+        })
+        .eq("id", id)
+        .select("id");
+
+      if (result.error) throw result.error;
+      if (!result.data?.length) {
+        throw new Error("Mabadiliko hayajahifadhiwa. Kagua ruhusa za admin kwenye Supabase.");
+      }
+
+      msg("editVideoMsg", "Mabadiliko yamehifadhiwa.");
+      hide("editVideoBox", true);
+      await loadAdminVideos();
+      await loadVideos();
+    } catch (e) {
+      msg("editVideoMsg", "Imeshindikana kuhifadhi: " + errorText(e));
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  $("addVideoForm").addEventListener("submit", async e => {
+    e.preventDefault();
+
+    if (profile?.role !== "admin") {
+      msg("addVideoMsg", "Huna ruhusa ya admin.");
+      return;
+    }
+
+    const title = $("newVideoTitle").value.trim();
+    const image = $("newVideoImage").value.trim();
+    const videoUrl = $("newVideoUrl").value.trim();
+    const cost = Number($("newVideoCost").value);
+    const description = $("newVideoDescription").value.trim();
+
+    if (!title || !videoUrl || !Number.isSafeInteger(cost) || cost < 1) {
+      msg("addVideoMsg", "Kagua jina, link ya video na gharama ya tokeni.");
+      return;
+    }
+
+    const button = $("addVideoButton");
+    button.disabled = true;
+
+    try {
+      const result = await db.from("videos").insert({
+        title,
+        description,
+        stream_uid: "external-" + crypto.randomUUID(),
+        token_cost: cost,
+        is_published: true,
+        thumbnail_url: image || null,
+        video_url: videoUrl,
+        storage_path: null
+      }).select("id");
+
+      if (result.error) throw result.error;
+
+      msg("addVideoMsg", "Video imeongezwa kwenye orodha.");
+      $("addVideoForm").reset();
+      $("newVideoCost").value = 1;
+      await loadAdminVideos();
+      await loadVideos();
+    } catch (e) {
+      msg("addVideoMsg", "Imeshindikana kuongeza: " + errorText(e));
+    } finally {
+      button.disabled = false;
+    }
+  });
 
 window.addEventListener("error", e => {
   if (e.message) console.error("JavaScript error:", e.message);
