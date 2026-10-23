@@ -4,210 +4,286 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#100e0c">
-<title>VIDEO CHUMBANI ALL STYLE</title>
+<title>VIDEO 🔞 CHUMBANI ALL STYLE</title>
+
 <style>
+:root {
+  --bg:#100e0c;
+  --card:#1d1915;
+  --gold:#f5cf68;
+  --gold2:#d9a936;
+  --text:#f8f3e8;
+  --muted:#bdb09e;
+  --border:#493923;
+  --green:#087f5b;
+}
 *{box-sizing:border-box}
-body{margin:0;background:#100e0c;color:#f8f3e8;font-family:Arial,sans-serif;line-height:1.45}
-header{background:linear-gradient(135deg,#261a0c,#71501c);padding:25px 15px;text-align:center;border-bottom:2px solid #d9ae49}
-header h1{font-size:26px;color:#f5cf68;margin:0}
-header p{margin:7px 0 0;color:#f4e7cb;font-size:13px}
-main{max-width:700px;margin:auto;padding:15px}
-.card{background:#1e1a16;border:1px solid #4a3922;border-radius:14px;padding:16px;margin-bottom:15px}
-h2{font-size:18px;color:#f5cf68;margin-top:0}
-input,button{width:100%;padding:13px;margin:7px 0;border-radius:9px;font-size:15px}
-input{background:#100e0c;color:white;border:1px solid #655139}
-button{background:#e0b64d;color:#211707;border:0;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.5}
-.secondary{background:#383027;color:#fff}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,sans-serif;line-height:1.5
+}
+header{
+  padding:24px 14px;text-align:center;
+  background:linear-gradient(135deg,#17110a,#624516,#201609);
+  border-bottom:2px solid var(--gold)
+}
+header h1{font-size:clamp(22px,5vw,32px);color:var(--gold);margin:0}
+header p{margin:5px 0;color:#eadfc8;font-size:13px}
+main{max-width:1100px;margin:auto;padding:14px}
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:15px;padding:15px;margin-bottom:16px;
+  min-width:0
+}
+h2{font-size:18px;color:var(--gold);margin:0 0 12px}
+h3{font-size:14px;margin:8px 0;color:var(--text)}
+p{overflow-wrap:anywhere}
+label{display:block;font-size:13px;margin-top:10px;color:#e9d9ba}
+input,textarea,select,button{
+  display:block;width:100%;padding:12px;margin:7px 0;
+  border-radius:9px;font-size:14px
+}
+input,textarea,select{
+  background:#100e0c;color:white;border:1px solid #655139;
+  min-width:0
+}
+textarea{resize:vertical;line-height:1.5}
+button{
+  border:0;background:var(--gold);color:#211707;
+  font-weight:bold;cursor:pointer
+}
+button:disabled{opacity:.5;cursor:wait}
+button.secondary{background:#393027;color:#fff}
 .hidden{display:none!important}
-.muted{color:#c2b6a4;font-size:13px}
-.status{white-space:pre-wrap;font-size:14px;overflow-wrap:anywhere}
-.gold{color:#f5cf68}
-.video-item{border-top:1px solid #4a3922;padding:12px 0}
-video{width:100%;max-height:420px;background:#000;border-radius:10px}
-footer{text-align:center;padding:20px;color:#b8a78d;font-size:12px}
+.muted{color:var(--muted);font-size:12px}
+.status{white-space:pre-wrap;font-size:13px;overflow-wrap:anywhere}
+.gold{color:var(--gold)}
+#tokenBalance{font-size:23px;color:var(--gold)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+.toolbar button{flex:1;min-width:130px}
+.section-heading{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:8px;flex-wrap:wrap;margin-bottom:12px
+}
+.section-heading h2{margin:0}
+
+/* VIDEO GRID: video zinapangwa kwa mlalo */
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.video-card{
+  min-width:0;overflow:hidden;background:#17130f;
+  border:1px solid var(--border);border-radius:12px;
+  padding:8px;display:flex;flex-direction:column;
+}
+.video-cover{
+  width:100%;aspect-ratio:3/4;object-fit:cover;
+  display:block;background:#080706;border-radius:8px;
+}
+.cover-placeholder{
+  aspect-ratio:3/4;display:flex;align-items:center;
+  justify-content:center;background:#292119;
+  color:var(--muted);border-radius:8px;font-size:12px
+}
+.video-card h3{
+  font-size:13px;line-height:1.4;margin:9px 0 4px;
+  overflow-wrap:anywhere
+}
+.video-description{
+  color:var(--muted);font-size:11px;margin:2px 0 7px;
+  overflow-wrap:anywhere
+}
+.video-price{color:var(--gold);font-size:12px;font-weight:bold;margin-top:auto}
+.watch-button{padding:10px 5px;font-size:11px;margin-top:8px}
+.admin-video-list{display:grid;grid-template-columns:1fr;gap:8px}
+.admin-video-row{
+  background:#17130f;border:1px solid var(--border);
+  border-radius:10px;padding:10px;min-width:0
+}
+.admin-video-row button{margin-top:6px}
+#player{width:100%;max-height:65vh;background:#000;border-radius:10px}
+footer{text-align:center;padding:22px;color:var(--muted);font-size:12px}
+
+@media(min-width:600px){
+  main{padding:22px}
+  .video-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .video-card{padding:10px}
+  .video-card h3{font-size:15px}
+  .watch-button{font-size:12px}
+}
+@media(min-width:900px){
+  .video-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+}
 </style>
 </head>
+
 <body>
 <header>
-<h1>▶ VIDEO CHUMBANI</h1>
-<p>ALL STYLE • BURUDANI YAKO</p>
-<p>Tazama video kwa kutumia token zako</p>
+  <h1>▶ VIDEO ZA XX ZA CHUMBANI</h1>
+  <p>ALL STYLE • BURUDANI YAKO</p>
+  <p>Tazama video kwa kutumia tokeni zako ulizonunua</p>
 </header>
 
 <main>
+
+<!-- LOGIN NA USAJILI -->
 <section class="card" id="authBox">
-<h2 id="authTitle">Ingia kwenye akaunti</h2>
-<form id="authForm">
-<input id="fullName" placeholder="Jina lako kamili" class="hidden">
-<input id="email" type="email" placeholder="Barua pepe" required>
-<input id="password" type="password" placeholder="Password" minlength="6" required>
-<input id="phone" placeholder="Namba ya simu" class="hidden">
-<button id="authButton" type="submit">INGIA</button>
-</form>
-<button id="toggleAuth" class="secondary" type="button">Fungua akaunti mpya</button>
-<p id="authMsg" class="status"></p>
+  <h2 id="authTitle">Ingia kwenye akaunti</h2>
+  <form id="authForm">
+    <input id="fullName" placeholder="Jina lako kamili" class="hidden">
+    <input id="email" type="email" placeholder="Barua pepe" required>
+    <input id="password" type="password" placeholder="Password"
+      minlength="6" required>
+    <input id="phone" placeholder="Namba ya simu" class="hidden">
+    <button id="authButton" type="submit">INGIA</button>
+  </form>
+  <button id="toggleAuth" class="secondary" type="button">Fungua akaunti mpya</button>
+  <p id="authMsg" class="status"></p>
 </section>
 
 <section id="appBox" class="hidden">
-<section class="card">
-<p>Karibu, <strong id="userName">Mtumiaji</strong></p>
-<p>Token zako: <strong class="gold" id="tokenBalance">—</strong></p>
-<button id="refreshButton" class="secondary" type="button">SASISHA SALIO</button>
-<button id="logoutButton" class="secondary" type="button">TOKA KWENYE AKAUNTI</button>
-<p id="appMsg" class="status"></p>
-</section>
 
-<section class="card">
-<h2>Ongeza Token</h2>
-<p class="muted">Tuma ombi baada ya kulipa. Admin atakagua malipo na kuongeza token.</p>
-<p><strong>Namba ya malipo:</strong> Thibitisha namba rasmi kwa admin kabla ya kutuma pesa.</p>
-<form id="paymentForm">
-<input id="payerPhone" placeholder="Namba uliyotumia kulipa" required>
-<input id="amount" type="number" min="1" step="1" placeholder="Kiasi (TSh)" required>
-<input id="requestedTokens" type="number" min="1" step="1" placeholder="Idadi ya token" required>
-<input id="reference" placeholder="Namba ya kumbukumbu ya muamala" required>
-<button id="paymentButton" type="submit">TUMA OMBI LA MALIPO</button>
-</form>
-<p id="paymentMsg" class="status"></p>
-</section>
-
-<section class="card">
-
-<h2>Video Zilizopo</h2>
-
-<div id="videos">Inapakia video...</div>
-
-<p id="videoMsg" class="status"></p>
-
-<div id="playerBox" class="hidden">
-  <video
-    id="player"
-    controls
-    playsinline
-    controlsList="nodownload"
-  ></video>
-
-  <p class="muted">
-    Link ni ya muda mfupi; hii si kinga kamili dhidi ya kurekodi skrini.
-  </p>
-</div>
-</section>
-
-
-<section class="card hidden" id="adminBox">
-  <h2>Paneli ya Admin</h2>
-
-  
-<!-- ONGEZA VIDEO KWA KUBANDIKA CODE -->
-<section class="video-item">
-  <h2>ONGEZA VIDEO KWA CODE</h2>
-
-  <p>Bandika code ya video hapa, kisha bonyeza HIFADHI VIDEO.</p>
-
-  <form id="addVideoForm">
-    <label for="newVideoCode">CODE YA VIDEO</label>
-
-    <textarea
-      id="newVideoCode"
-      rows="12"
-      placeholder='{
-  "title": "Filamu mpya",
-  "image": "https://example.com/picha.jpg",
-  "video": "https://example.com/video.mp4",
-  "cost": 50,
-  "description": "Maelezo ya video"
-}'
-      required
-    ></textarea>
-
-    <button id="addVideoButton" type="submit">
-      HIFADHI VIDEO
-    </button>
-  </form>
-
-  <p id="addVideoMsg" class="status"></p>
-</section>
-
-
-    <p id="addVideoMsg" class="status"></p>
+  <!-- AKAUNTI NA TOKENI -->
+  <section class="card">
+    <p>Karibu, <strong id="userName">Mtumiaji</strong></p>
+    <p>Tokeni zako: <strong id="tokenBalance">—</strong></p>
+    <div class="toolbar">
+      <button id="refreshButton" class="secondary" type="button">SASISHA SALIO</button>
+      <button id="logoutButton" class="secondary" type="button">TOKA</button>
+    </div>
+    <p id="appMsg" class="status"></p>
   </section>
 
-  <!-- ORODHA YA VIDEO -->
-  <section class="video-item" id="adminVideoManager">
-    <h2>SIMAMIA VIDEO ZANGU</h2>
+  <!-- MALIPO -->
+  <section class="card">
+    <h2>ONGEZA TOKENI</h2>
+    <p class="muted">Tuma ombi baada ya kulipa. Admin atakagua malipo.</p>
+    <p><strong>Namba ya malipo 0702715377(LIPIA KWA HII NAMBA KUPATA TOKENI):</strong> Thibitisha namba rasmi kwa admin kabla ya kutuma pesa.</p>
 
-    <button type="button" id="refreshAdminVideos">
-      PAKIA ORODHA UPYA
-    </button>
+    <form id="paymentForm">
+      <label for="payerPhone">Namba uliyotumia kulipa</label>
+      <input id="payerPhone" placeholder="Namba ya simu" required>
 
-    <p id="adminVideoMsg" class="status"></p>
-    <div id="adminVideosList">
-      Video ulizoweka zitaonekana hapa.
+      <label for="amount">Kiasi (TSh) ulicholipia</label>
+      <input id="amount" type="number" min="1000" step="1000"
+        placeholder="Mfano: 1000" required>
+
+      <label for="reference">Namba ya kumbukumbu ya muamala</label>
+      <input id="reference" placeholder="Transaction reference" required>
+
+      <p class="muted">Kwa hesabu ya TSh 100 kwa tokeni 1, TSh 1,000 = tokeni 10.</p>
+      <button id="paymentButton" type="submit">TUMA OMBI LA MALIPO</button>
+    </form>
+    <p id="paymentMsg" class="status"></p>
+  </section>
+
+  <!-- ORODHA YA USER -->
+  <section class="card">
+    <div class="section-heading">
+      <h2>VIDEO ZILIZOPO ZA XX🔞</h2>
+      <button id="reloadVideos" class="secondary" type="button"
+        style="width:auto;margin:0;padding:9px 12px">↻ SASISHA</button>
+    </div>
+    <p class="muted">Chagua video unayotaka kutazama.</p>
+    <div id="videos" class="video-grid">Inapakia video...</div>
+    <p id="videoMsg" class="status"></p>
+
+    <div id="playerBox" class="hidden">
+      <video id="player" controls playsinline controlsList="nodownload"></video>
+      <p class="muted">Baadhi ya link za video zinaweza kutegemea ruhusa za mwenye faili.</p>
     </div>
   </section>
 
-  <!-- FOMU YA KUHARIRI -->
-  <section class="video-item hidden" id="editVideoBox">
-    <h2>HARIRI VIDEO</h2>
+  <!-- ADMIN -->
+  <section class="card hidden" id="adminBox">
+    <h2>PANELI YA ADMIN</h2>
 
-    <form id="editVideoForm">
-      <input type="hidden" id="editVideoId">
+    <section class="video-item">
+      <h2>ONGEZA VIDEO KWA CODE</h2>
+      <p class="muted">Bandika JSON yenye jina, link ya picha, link ya video na gharama ya tokeni.</p>
 
-      <label for="editVideoTitle">Jina la video</label>
-      <input id="editVideoTitle" type="text" required>
+      <form id="addVideoForm">
+        <label for="newVideoCode">CODE YA VIDEO (JSON)</label>
+        <textarea id="newVideoCode" rows="10" required
+          placeholder='{
+  "title": "Filamu mpya",
+  "image": "https://example.com/picha.jpg",
+  "video": "https://example.com/video.mp4",
+  "cost": 10,
+  "description": "Maelezo ya video"
+}'></textarea>
+        <button id="addVideoButton" type="submit">HIFADHI VIDEO</button>
+      </form>
+      <p id="addVideoMsg" class="status"></p>
+    </section>
 
-      <label for="editVideoImage">Link ya picha</label>
-      <input id="editVideoImage" type="url"
-        placeholder="https://example.com/picha.jpg">
+    <section class="video-item">
+      <div class="section-heading">
+        <h2>SIMAMIA VIDEO</h2>
+        <button type="button" id="refreshAdminVideos"
+          style="width:auto;margin:0;padding:9px">PAKIA UPYA</button>
+      </div>
+      <p id="adminVideoMsg" class="status"></p>
+      <div id="adminVideosList" class="admin-video-list">
+        Video zako zitaonekana hapa.
+      </div>
+    </section>
 
-      <label for="editVideoUrl">Link ya video</label>
-      <input id="editVideoUrl" type="url" required>
+    <section class="video-item hidden" id="editVideoBox">
+      <h2>HARIRI VIDEO</h2>
+      <form id="editVideoForm">
+        <input type="hidden" id="editVideoId">
 
-      <label for="editVideoCost">Gharama ya tokeni</label>
-      <input id="editVideoCost" type="number"
-        min="1" step="1" required>
+        <label for="editVideoTitle">Jina</label>
+        <input id="editVideoTitle" required>
 
-      <label for="editVideoDescription">Maelezo</label>
-      <input id="editVideoDescription" type="text">
+        <label for="editVideoImage">Image URL</label>
+        <input id="editVideoImage" type="url">
 
-      <label for="editVideoPublished">Hali ya video</label>
-      <select id="editVideoPublished">
-        <option value="true">Imechapishwa — ionekane</option>
-        <option value="false">Imefichwa — isionekane</option>
-      </select>
+        <label for="editVideoUrl">Video URL</label>
+        <input id="editVideoUrl" type="url" required>
 
-      <button type="submit" id="saveVideoChanges">
-        HIFADHI MABADILIKO
-      </button>
+        <label for="editVideoCost">Tokeni</label>
+        <input id="editVideoCost" type="number" min="1" step="1" required>
 
-      <button type="button" id="cancelEditVideo">
-        GHAIRI
-      </button>
-    </form>
+        <label for="editVideoDescription">Maelezo</label>
+        <input id="editVideoDescription">
 
-    <p id="editVideoMsg" class="status"></p>
+        <label for="editVideoPublished">Hali</label>
+        <select id="editVideoPublished">
+          <option value="true">Imechapishwa</option>
+          <option value="false">Imefichwa</option>
+        </select>
+
+        <button id="saveVideoChanges" type="submit">HIFADHI MABADILIKO</button>
+        <button id="cancelEditVideo" class="secondary" type="button">GHAIRI</button>
+      </form>
+      <p id="editVideoMsg" class="status"></p>
+    </section>
   </section>
-</section>
 
-  <p id="addVideoMsg" class="status"></p>
-</section>
+  <!-- MAOMBI YA MALIPO YA ADMIN -->
+  <section class="card hidden" id="adminPaymentsBox">
+    <h2>MAOMBI YA MALIPO</h2>
+    <button id="adminLoad" type="button">PAKIA MAOMBI</button>
+    <div id="adminPayments"></div>
+    <p id="adminMsg" class="status"></p>
+  </section>
 
-<button id="adminLoad" type="button">ONA MAOMBI YA MALIPO</button>
-<div id="adminPayments"></div>
-<p id="adminMsg" class="status"></p>
-</section>
 </section>
 </main>
-<footer>VIDEO CHUMBANI ALL STYLE</footer>
+
+<footer>VIDEO CHUMBANI🔞 ALL STYLE</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (() => {
 "use strict";
 
-const URL = "https://xjabdtnrawuzbtseuysp.supabase.co";
-const KEY = "sb_publishable_GXNT7rJjh3Buj27kzPjkhw_IO3XYYSG";
+const SUPABASE_URL = "https://xjabdtnrawuzbtseuysp.supabase.co";
+const SUPABASE_KEY = "sb_publishable_GXNT7rJjh3Buj27kzPjkhw_IO3XYYSG";
 
 const $ = id => document.getElementById(id);
 const msg = (id, text) => { $(id).textContent = text || ""; };
@@ -218,17 +294,27 @@ let db, isSignup = false, user = null, profile = null;
 function errorText(e) {
   const s = e?.message || String(e || "Hitilafu");
   if (/failed to fetch|networkerror/i.test(s))
-    return "Imeshindwa kuunganishwa. Angalia intaneti na Supabase URL.";
+    return "Imeshindwa kuunganishwa. Kagua intaneti na Supabase.";
   return s;
+}
+
+function validHttpUrl(value) {
+  try {
+    const u = new URL(value);
+    return u.protocol === "https:" || u.protocol === "http:";
+  } catch {
+    return false;
+  }
 }
 
 async function init() {
   if (!window.supabase?.createClient) {
-    msg("authMsg", "Supabase haijapakia. Angalia intaneti kisha refresh.");
+    msg("authMsg", "Supabase haijapakia. Kagua intaneti kisha refresh.");
     return;
   }
+
   try {
-    db = window.supabase.createClient(URL, KEY);
+    db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     $("authForm").addEventListener("submit", auth);
     $("toggleAuth").addEventListener("click", toggleAuth);
@@ -236,6 +322,15 @@ async function init() {
     $("refreshButton").addEventListener("click", loadApp);
     $("paymentForm").addEventListener("submit", submitPayment);
     $("adminLoad").addEventListener("click", loadAdminPayments);
+    $("reloadVideos").addEventListener("click", loadVideos);
+    $("refreshAdminVideos").addEventListener("click", loadAdminVideos);
+    $("addVideoForm").addEventListener("submit", addVideo);
+    $("editVideoForm").addEventListener("submit", editVideo);
+
+    $("cancelEditVideo").addEventListener("click", () => {
+      hide("editVideoBox", true);
+      msg("editVideoMsg", "");
+    });
 
     const {data, error} = await db.auth.getSession();
     if (error) throw error;
@@ -249,7 +344,8 @@ function toggleAuth() {
   isSignup = !isSignup;
   $("authTitle").textContent = isSignup ? "Fungua akaunti" : "Ingia kwenye akaunti";
   $("authButton").textContent = isSignup ? "JISAJILI" : "INGIA";
-  $("toggleAuth").textContent = isSignup ? "Nina akaunti tayari — Ingia" : "Fungua akaunti mpya";
+  $("toggleAuth").textContent = isSignup
+    ? "Nina akaunti tayari — Ingia" : "Fungua akaunti mpya";
   hide("fullName", !isSignup);
   hide("phone", !isSignup);
   $("fullName").required = isSignup;
@@ -259,12 +355,13 @@ function toggleAuth() {
 
 async function auth(e) {
   e.preventDefault();
-  const email = $("email").value.trim();
-  const password = $("password").value;
   $("authButton").disabled = true;
 
   try {
+    const email = $("email").value.trim();
+    const password = $("password").value;
     let r;
+
     if (isSignup) {
       r = await db.auth.signUp({
         email, password,
@@ -276,12 +373,14 @@ async function auth(e) {
     } else {
       r = await db.auth.signInWithPassword({email, password});
     }
+
     if (r.error) throw r.error;
 
     if (isSignup && !r.data.session) {
-      msg("authMsg", "Akaunti imetengenezwa. Thibitisha email yako kisha ingia.");
+      msg("authMsg", "Akaunti imetengenezwa. Thibitisha email kisha ingia.");
       return;
     }
+
     await loadApp();
   } catch(e) {
     msg("authMsg", "Imeshindikana: " + errorText(e));
@@ -298,21 +397,23 @@ async function logout() {
     msg("appMsg", errorText(e));
     return;
   }
+
   user = null;
   profile = null;
   $("player").pause();
   $("player").removeAttribute("src");
   $("player").load();
+
   hide("playerBox", true);
   hide("appBox", true);
   hide("authBox", false);
-  hide("adminBox", true);
 }
 
 async function loadApp() {
   try {
     const a = await db.auth.getUser();
     if (a.error) throw a.error;
+
     if (!a.data.user) {
       hide("appBox", true);
       hide("authBox", false);
@@ -324,18 +425,27 @@ async function loadApp() {
     hide("appBox", false);
 
     const p = await db.from("profiles")
-      .select("full_name,role").eq("id", user.id).maybeSingle();
+      .select("full_name,role")
+      .eq("id", user.id)
+      .maybeSingle();
+
     if (p.error) throw new Error("Profile: " + p.error.message);
     profile = p.data;
 
     $("userName").textContent =
       profile?.full_name || user.email || "Mtumiaji";
-    hide("adminBox", profile?.role !== "admin");
-    if (profile?.role === "admin") {
-  await loadAdminVideos();
-  }
+
+    const admin = profile?.role === "admin";
+    hide("adminBox", !admin);
+    hide("adminPaymentsBox", !admin);
+
+    if (admin) await loadAdminVideos();
+
     const w = await db.from("wallets")
-      .select("tokens").eq("user_id", user.id).maybeSingle();
+      .select("tokens")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
     if (w.error) throw new Error("Salio: " + w.error.message);
     $("tokenBalance").textContent = w.data?.tokens ?? 0;
 
@@ -349,30 +459,21 @@ async function loadApp() {
 async function submitPayment(e) {
   e.preventDefault();
 
-  if (!user) {
-    return msg("paymentMsg", "Ingia kwanza.");
-  }
+  if (!user) return msg("paymentMsg", "Ingia kwanza.");
 
   const payer_phone = $("payerPhone").value.trim();
   const amount_tzs = Number($("amount").value);
   const transaction_reference = $("reference").value.trim();
 
-  if (
-    !payer_phone ||
-    !transaction_reference ||
-    !Number.isSafeInteger(amount_tzs) ||
-    amount_tzs < 1000 ||
-    amount_tzs % 1000 !== 0
-  ) {
-    return msg(
-      "paymentMsg",
-      "Weka namba ya simu, reference halisi, na kiasi kuanzia TSh 1,000 katika mafungu ya TSh 1,000."
-    );
+  if (!payer_phone || !transaction_reference ||
+      !Number.isSafeInteger(amount_tzs) ||
+      amount_tzs < 1000 || amount_tzs % 1000 !== 0) {
+    return msg("paymentMsg",
+      "Weka simu, reference halisi na kiasi cha TSh 1,000 au zaidi katika mafungu ya 1,000.");
   }
 
-  // TSh 1,000 = tokeni 10
-  const requested_tokens = (amount_tzs / 100) * 1;
-
+  // Hii inafuata hesabu ya awali: TSh 100 = tokeni 1.
+  const requested_tokens = amount_tzs / 100;
   $("paymentButton").disabled = true;
 
   try {
@@ -386,20 +487,15 @@ async function submitPayment(e) {
 
     if (r.error) throw r.error;
 
-    msg(
-      "paymentMsg",
-      `Ombi limetumwa. Ukithibitishiwa malipo ya TSh ${amount_tzs.toLocaleString("en-US")}, utapata tokeni ${requested_tokens}.`
-    );
-
+    msg("paymentMsg",
+      `Ombi limetumwa. TSh ${amount_tzs.toLocaleString("en-US")} = tokeni ${requested_tokens}. Subiri admin athibitishe malipo.`);
     $("paymentForm").reset();
-
-  } catch (e) {
+  } catch(e) {
     msg("paymentMsg", "Imeshindikana: " + errorText(e));
   } finally {
     $("paymentButton").disabled = false;
   }
 }
-
 
 async function loadVideos() {
   const area = $("videos");
@@ -409,397 +505,136 @@ async function loadVideos() {
     const r = await db.from("videos")
       .select("id,title,description,token_cost,thumbnail_url")
       .eq("is_published", true)
-      .order("created_at", { ascending: false });
+      .order("created_at", {ascending:false});
 
     if (r.error) throw r.error;
+
+    area.replaceChildren();
 
     if (!r.data?.length) {
       area.textContent = "Bado hakuna video zilizochapishwa.";
       return;
     }
 
-    area.replaceChildren();
-
     r.data.forEach(v => {
-      const item = document.createElement("div");
-      item.className = "video-item";
+      const item = document.createElement("article");
+      item.className = "video-card";
 
-      const imageUrl = (v.thumbnail_url || "").trim();
-
-      if (imageUrl) {
+      if (v.thumbnail_url) {
         const img = document.createElement("img");
-        img.src = imageUrl;
+        img.className = "video-cover";
+        img.src = v.thumbnail_url;
         img.alt = v.title || "Picha ya video";
         img.loading = "lazy";
         img.decoding = "async";
-        img.style.width = "100%";
-        img.style.aspectRatio = "16 / 9";
-        img.style.objectFit = "cover";
-        img.style.borderRadius = "10px";
-        img.style.display = "block";
-        img.style.background = "#000";
-
         img.onerror = () => {
-          img.alt = "Picha haikupatikana";
-          img.style.display = "none";
+          const placeholder = document.createElement("div");
+          placeholder.className = "cover-placeholder";
+          placeholder.textContent = "Picha haikupatikana";
+          img.replaceWith(placeholder);
         };
-
         item.appendChild(img);
+      } else {
+        const placeholder = document.createElement("div");
+        placeholder.className = "cover-placeholder";
+        placeholder.textContent = "Hakuna picha";
+        item.appendChild(placeholder);
       }
 
       const title = document.createElement("h3");
       title.textContent = v.title || "Video";
 
       const desc = document.createElement("p");
-      desc.className = "muted";
+      desc.className = "video-description";
       desc.textContent = v.description || "";
 
       const cost = document.createElement("p");
-      cost.className = "gold";
-      cost.textContent = "Gharama: " + v.token_cost + " tokeni";
+      cost.className = "video-price";
+      cost.textContent = "◆ " + v.token_cost + " TOKENI";
 
       const btn = document.createElement("button");
+      btn.className = "watch-button";
       btn.type = "button";
-      btn.textContent = "▶ TAZAMA VIDEO • " + v.token_cost + " TOKENI";
+      btn.textContent = "▶ TAZAMA VIDEO";
       btn.addEventListener("click", () => watchVideo(v.id));
 
       item.append(title, desc, cost, btn);
       area.appendChild(item);
     });
-
-  } catch (e) {
+  } catch(e) {
     area.textContent = "Hitilafu ya video: " + errorText(e);
   }
 }
 
-
-
 async function watchVideo(videoId) {
-  const playerBox = document.getElementById("playerBox");
-  const player = document.getElementById("player");
-  const msg = document.getElementById("videoMsg");
+  const playerBox = $("playerBox");
+  const player = $("player");
 
   try {
     if (!user) {
-      msg.textContent = "Tafadhali ingia kwenye akaunti kwanza.";
+      msg("videoMsg", "Ingia kwenye akaunti kwanza.");
       return;
     }
 
-    msg.textContent = "Inafungua video...";
-    playerBox.classList.add("hidden");
+    msg("videoMsg", "Inafungua video...");
+    hide("playerBox", true);
     player.pause();
     player.removeAttribute("src");
     player.load();
 
-    const { data: sessionData, error: sessionError } =
-      await db.auth.getSession();
+    const {data, error} = await db.auth.getSession();
+    if (error) throw error;
 
-    if (sessionError) throw sessionError;
-
-    const session = sessionData?.session;
-
+    const session = data?.session;
     if (!session?.access_token) {
-      msg.textContent = "Session imeisha. Ingia tena kwenye akaunti.";
+      msg("videoMsg", "Session imeisha. Ingia tena.");
       return;
     }
 
     const response = await fetch(
-      "https://xjabdtnrawuzbtseuysp.supabase.co/functions/v1/watch-video-v2",
+      SUPABASE_URL + "/functions/v1/watch-video-v2",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer " + session.access_token,
-          "apikey": "sb_publishable_GXNT7rJjh3Buj27kzPjkhw_IO3XYYSG"
+          "apikey": SUPABASE_KEY
         },
-        body: JSON.stringify({ video_id: videoId })
+        body: JSON.stringify({video_id:videoId})
       }
     );
 
     const result = await response.json();
 
     if (!response.ok || !result.success) {
-      console.error("Watch video error:", result);
-      msg.textContent =
-        "Imeshindikana kufungua video: " +
-        (result.error || result.message || "Hitilafu isiyojulikana");
-      return;
+      throw new Error(result.error || result.message || "Video haijafunguka.");
     }
 
-    const videoUrl =
-      result.video_url || result.signedUrl || result.url;
-    // Sasisha salio la tokeni mara moja
-const tokensLeft = result.tokens_left;
+    const videoUrl = result.video_url || result.signedUrl || result.url;
+    if (!videoUrl) throw new Error("URL ya video haijapatikana.");
 
-if (tokensLeft !== undefined && tokensLeft !== null) {
-  const tokenElements = [
-    "tokenBalance",
-    "userTokens",
-    "tokensBalance"
-  ];
-
-  for (const id of tokenElements) {
-    const el = document.getElementById(id);
-
-    if (el) {
-      el.textContent = tokensLeft;
-    }
-  }
-}
-
-    if (!videoUrl) {
-      msg.textContent = "URL ya video haijapatikana.";
-      return;
+    if (result.tokens_left !== undefined && result.tokens_left !== null) {
+      $("tokenBalance").textContent = result.tokens_left;
+    } else {
+      // Pata salio la sasa kutoka database baada ya ombi la kutazama.
+      const w = await db.from("wallets")
+        .select("tokens").eq("user_id", user.id).maybeSingle();
+      if (!w.error && w.data) $("tokenBalance").textContent = w.data.tokens;
     }
 
     player.src = videoUrl;
-    player.style.width = "100%";
-    player.style.maxWidth = "480px";
-    player.style.borderRadius = "12px";
-
-    playerBox.classList.remove("hidden");
-    msg.textContent = "Video imefunguliwa. Bonyeza Play ikiwa haijaanza.";
-
+    hide("playerBox", false);
     player.load();
+    msg("videoMsg", "Video imefunguliwa. Bonyeza Play ikiwa haijaanza.");
 
-    try {
-      await player.play();
-    } catch (playError) {
-      console.log("Bonyeza Play kuanza video:", playError);
-    }
-
-  } catch (error) {
-    console.error("Watch video exception:", error);
-    msg.textContent =
-      "Hitilafu: " + (error.message || "Imeshindwa kufungua video.");
-  }
-}
-
-async function loadAdminPayments() {
-  if (profile?.role !== "admin")
-    return msg("adminMsg", "Huna ruhusa ya admin.");
-
-  const area = $("adminPayments");
-  area.textContent = "Inapakia maombi...";
-
-  try {
-    const r = await db.rpc("admin_get_video_token_payments");
-    if (r.error) throw r.error;
-    if (!r.data?.length) {
-      area.textContent = "Hakuna maombi ya malipo.";
-      return;
-    }
-
-    area.replaceChildren();
-    r.data.forEach(p => {
-      const item = document.createElement("div");
-      item.className = "video-item";
-      const info = document.createElement("p");
-      info.textContent =
-        (p.full_name || "Mtumiaji") +
-        " | TSh " + p.amount_tzs +
-        " | Simu: " + p.payer_phone +
-        " | Ref: " + p.transaction_reference +
-        " | Hali: " + p.status;
-      item.appendChild(info);
-
-      if (p.status === "pending") {
-        const approve = document.createElement("button");
-        approve.textContent = "THIBITISHA MALIPO";
-        approve.addEventListener("click", () =>
-          reviewPayment(p.payment_id, "approve"));
-
-        const reject = document.createElement("button");
-        reject.className = "secondary";
-        reject.textContent = "KATAA OMBI";
-        reject.addEventListener("click", () =>
-          reviewPayment(p.payment_id, "reject"));
-
-        item.append(approve, reject);
-      }
-      area.appendChild(item);
-    });
+    try { await player.play(); } catch (_) {}
+    playerBox.scrollIntoView({behavior:"smooth",block:"start"});
   } catch(e) {
-    area.textContent = "Hitilafu: " + errorText(e);
+    msg("videoMsg", "Imeshindikana kufungua video: " + errorText(e));
   }
 }
 
-async function reviewPayment(paymentId, decision) {
-  const question = decision === "approve"
-    ? "Umethibitisha fedha zimeingia kweli?"
-    : "Unataka kukataa ombi hili?";
-  if (!confirm(question)) return;
-
-  try {
-    const r = await db.rpc("admin_review_payment", {
-      p_payment_id: paymentId,
-      p_decision: decision
-    });
-    if (r.error) throw r.error;
-
-    msg("adminMsg", r.data?.message || "Ombi limeshughulikiwa.");
-    await loadAdminPayments();
-    await loadApp();
-  } catch(e) {
-    msg("adminMsg", "Hitilafu: " + errorText(e));
-  }
-}
-
-  // ===== USIMAMIZI WA VIDEO KWA ADMIN =====
-
-  async function loadAdminVideos() {
-    if (profile?.role !== "admin") {
-      msg("adminVideoMsg", "Huna ruhusa ya admin.");
-      return;
-    }
-
-    const area = $("adminVideosList");
-    area.textContent = "Inapakia video...";
-
-    try {
-      const r = await db.from("videos")
-        .select("id,title,description,token_cost,is_published,thumbnail_url,video_url,storage_path,stream_uid")
-        .order("created_at", { ascending: false });
-
-      if (r.error) throw r.error;
-
-      area.replaceChildren();
-
-      if (!r.data?.length) {
-        area.textContent = "Bado hakuna video.";
-        return;
-      }
-
-      r.data.forEach(v => {
-        const item = document.createElement("div");
-        item.className = "video-item";
-
-        const title = document.createElement("h3");
-        title.textContent = v.title;
-
-        const status = document.createElement("p");
-        status.className = "muted";
-        status.textContent =
-          "Tokeni: " + v.token_cost + " | " +
-          (v.is_published ? "Imechapishwa" : "Imefichwa");
-
-        const edit = document.createElement("button");
-        edit.type = "button";
-        edit.textContent = "HARIRI VIDEO";
-        edit.addEventListener("click", () => {
-          $("editVideoId").value = v.id;
-          $("editVideoTitle").value = v.title || "";
-          $("editVideoImage").value = v.thumbnail_url || "";
-          $("editVideoUrl").value = v.video_url || "";
-          $("editVideoCost").value = v.token_cost || 1;
-          $("editVideoDescription").value = v.description || "";
-          $("editVideoPublished").value = String(v.is_published);
-          hide("editVideoBox", false);
-          msg("editVideoMsg", "");
-          $("editVideoBox").scrollIntoView({ behavior: "smooth" });
-        });
-
-        const del = document.createElement("button");
-        del.type = "button";
-        del.className = "secondary";
-        del.textContent = "FUTA VIDEO";
-        del.addEventListener("click", async () => {
-          if (!confirm("Una uhakika unataka kufuta video hii?")) return;
-
-          del.disabled = true;
-          try {
-            const result = await db.from("videos")
-              .delete()
-              .eq("id", v.id)
-              .select("id");
-
-            if (result.error) throw result.error;
-            if (!result.data?.length) {
-              throw new Error("Haijafutwa. Hakikisha ruhusa za admin kwenye Supabase zinaruhusu.");
-            }
-
-            msg("adminVideoMsg", "Video imefutwa kwenye orodha.");
-            hide("editVideoBox", true);
-            await loadAdminVideos();
-            await loadVideos();
-          } catch (e) {
-            msg("adminVideoMsg", "Imeshindikana kufuta: " + errorText(e));
-          } finally {
-            del.disabled = false;
-          }
-        });
-
-        item.append(title, status, edit, del);
-        area.appendChild(item);
-      });
-
-      msg("adminVideoMsg", "");
-    } catch (e) {
-      area.textContent = "Hitilafu: " + errorText(e);
-    }
-  }
-
-  $("refreshAdminVideos").addEventListener("click", loadAdminVideos);
-
-  $("cancelEditVideo").addEventListener("click", () => {
-    hide("editVideoBox", true);
-    msg("editVideoMsg", "");
-  });
-
-  $("editVideoForm").addEventListener("submit", async e => {
-    e.preventDefault();
-
-    if (profile?.role !== "admin") {
-      msg("editVideoMsg", "Huna ruhusa ya admin.");
-      return;
-    }
-
-    const id = $("editVideoId").value;
-    const title = $("editVideoTitle").value.trim();
-    const image = $("editVideoImage").value.trim();
-    const videoUrl = $("editVideoUrl").value.trim();
-    const cost = Number($("editVideoCost").value);
-    const description = $("editVideoDescription").value.trim();
-    const published = $("editVideoPublished").value === "true";
-
-    if (!title || !Number.isSafeInteger(cost) || cost < 1) {
-      msg("editVideoMsg", "Weka jina na gharama sahihi ya tokeni.");
-      return;
-    }
-
-    const button = $("saveVideoChanges");
-    button.disabled = true;
-
-    try {
-      const result = await db.from("videos")
-        .update({
-          title,
-          thumbnail_url: image || null,
-          video_url: videoUrl,
-          token_cost: cost,
-          description,
-          is_published: published
-        })
-        .eq("id", id)
-        .select("id");
-
-      if (result.error) throw result.error;
-      if (!result.data?.length) {
-        throw new Error("Mabadiliko hayajahifadhiwa. Kagua ruhusa za admin kwenye Supabase.");
-      }
-
-      msg("editVideoMsg", "Mabadiliko yamehifadhiwa.");
-      hide("editVideoBox", true);
-      await loadAdminVideos();
-      await loadVideos();
-    } catch (e) {
-      msg("editVideoMsg", "Imeshindikana kuhifadhi: " + errorText(e));
-    } finally {
-      button.disabled = false;
-    }
-  });
-
-$("addVideoForm").addEventListener("submit", async e => {
+async function addVideo(e) {
   e.preventDefault();
 
   if (profile?.role !== "admin") {
@@ -820,45 +655,21 @@ $("addVideoForm").addEventListener("submit", async e => {
     const description = String(v.description || "").trim();
     const cost = Number(v.cost);
 
-    if (!title || !image || !videoUrl) {
-      throw new Error(
-        "Weka title, image na video ndani ya code."
-      );
-    }
+    if (!title || !image || !videoUrl)
+      throw new Error("Weka title, image na video ndani ya code.");
 
-    if (!Number.isSafeInteger(cost) || cost < 1) {
-      throw new Error("Gharama ya tokeni lazima iwe namba kuanzia 1.");
-    }
+    if (!Number.isSafeInteger(cost) || cost < 1)
+      throw new Error("Tokeni lazima ziwe namba kamili kuanzia 1.");
 
-    const validUrl = value => {
-      try {
-        const u = new URL(value);
-        return u.protocol === "https:" || u.protocol === "http:";
-      } catch {
-        return false;
-      }
-    };
+    if (!validHttpUrl(image))
+      throw new Error("Image URL lazima ianze na https:// au http://.");
 
-    
-const image = String(v.image || "").trim();
-const videoUrl = String(v.video || "").trim();
-
-if (!/^https?:\/\/\S+$/i.test(image)) {
-  throw new Error("Weka link sahihi ya picha.");
-}
-
-if (!/^https?:\/\/\S+$/i.test(videoUrl)) {
-  throw new Error("Weka link sahihi ya video.");
-}
-
-
-    if (!validUrl(videoUrl)) {
-      throw new Error("Link ya video si sahihi.");
-    }
+    if (!validHttpUrl(videoUrl))
+      throw new Error("Video URL lazima ianze na https:// au http://.");
 
     const result = await db.from("videos").insert({
-      title: title,
-      description: description,
+      title,
+      description,
       stream_uid: "external-" + crypto.randomUUID(),
       token_cost: cost,
       is_published: true,
@@ -870,30 +681,240 @@ if (!/^https?:\/\/\S+$/i.test(videoUrl)) {
     if (result.error) throw result.error;
 
     msg("addVideoMsg", "Video imehifadhiwa!");
-
     $("addVideoForm").reset();
-
     await loadAdminVideos();
     await loadVideos();
-
-  } catch (e) {
-    msg(
-      "addVideoMsg",
-      "Imeshindikana: " + (e.message || errorText(e))
-    );
+  } catch(e) {
+    msg("addVideoMsg", "Imeshindikana: " + errorText(e));
   } finally {
     button.disabled = false;
   }
-});
+}
 
+async function loadAdminVideos() {
+  if (profile?.role !== "admin") {
+    msg("adminVideoMsg", "Huna ruhusa ya admin.");
+    return;
+  }
 
-window.addEventListener("error", e => {
-  if (e.message) console.error("JavaScript error:", e.message);
-});
+  const area = $("adminVideosList");
+  area.textContent = "Inapakia video...";
+
+  try {
+    const r = await db.from("videos")
+      .select("id,title,description,token_cost,is_published,thumbnail_url,video_url,storage_path,stream_uid")
+      .order("created_at", {ascending:false});
+
+    if (r.error) throw r.error;
+
+    area.replaceChildren();
+
+    if (!r.data?.length) {
+      area.textContent = "Bado hakuna video.";
+      return;
+    }
+
+    r.data.forEach(v => {
+      const item = document.createElement("div");
+      item.className = "admin-video-row";
+
+      const title = document.createElement("strong");
+      title.textContent = v.title || "Video";
+
+      const status = document.createElement("p");
+      status.className = "muted";
+      status.textContent = "Tokeni: " + v.token_cost + " • " +
+        (v.is_published ? "Imechapishwa" : "Imefichwa");
+
+      const edit = document.createElement("button");
+      edit.type = "button";
+      edit.textContent = "HARIRI";
+      edit.addEventListener("click", () => {
+        $("editVideoId").value = v.id;
+        $("editVideoTitle").value = v.title || "";
+        $("editVideoImage").value = v.thumbnail_url || "";
+        $("editVideoUrl").value = v.video_url || "";
+        $("editVideoCost").value = v.token_cost || 1;
+        $("editVideoDescription").value = v.description || "";
+        $("editVideoPublished").value = String(v.is_published);
+        hide("editVideoBox", false);
+        $("editVideoBox").scrollIntoView({behavior:"smooth"});
+      });
+
+      const del = document.createElement("button");
+      del.type = "button";
+      del.className = "secondary";
+      del.textContent = "FUTA VIDEO";
+
+      del.addEventListener("click", async () => {
+        if (!confirm("Una uhakika unataka kufuta video hii?")) return;
+        del.disabled = true;
+
+        try {
+          const d = await db.from("videos").delete().eq("id",v.id).select("id");
+          if (d.error) throw d.error;
+          if (!d.data?.length)
+            throw new Error("Haijafutwa. Kagua ruhusa za admin kwenye Supabase.");
+
+          msg("adminVideoMsg", "Video imefutwa.");
+          await loadAdminVideos();
+          await loadVideos();
+        } catch(e) {
+          msg("adminVideoMsg", "Imeshindikana kufuta: " + errorText(e));
+        } finally {
+          del.disabled = false;
+        }
+      });
+
+      item.append(title,status,edit,del);
+      area.appendChild(item);
+    });
+  } catch(e) {
+    area.textContent = "Hitilafu: " + errorText(e);
+  }
+}
+
+async function editVideo(e) {
+  e.preventDefault();
+
+  if (profile?.role !== "admin") {
+    msg("editVideoMsg", "Huna ruhusa ya admin.");
+    return;
+  }
+
+  const id = $("editVideoId").value;
+  const title = $("editVideoTitle").value.trim();
+  const image = $("editVideoImage").value.trim();
+  const videoUrl = $("editVideoUrl").value.trim();
+  const cost = Number($("editVideoCost").value);
+  const description = $("editVideoDescription").value.trim();
+  const published = $("editVideoPublished").value === "true";
+  const button = $("saveVideoChanges");
+
+  if (!title || !Number.isSafeInteger(cost) || cost < 1) {
+    msg("editVideoMsg", "Weka jina na gharama sahihi ya tokeni.");
+    return;
+  }
+
+  if (image && !validHttpUrl(image)) {
+    msg("editVideoMsg", "Link ya picha si sahihi.");
+    return;
+  }
+
+  if (!validHttpUrl(videoUrl)) {
+    msg("editVideoMsg", "Link ya video si sahihi.");
+    return;
+  }
+
+  button.disabled = true;
+
+  try {
+    const result = await db.from("videos")
+      .update({
+        title,
+        thumbnail_url: image || null,
+        video_url: videoUrl,
+        token_cost: cost,
+        description,
+        is_published: published
+      })
+      .eq("id",id)
+      .select("id");
+
+    if (result.error) throw result.error;
+    if (!result.data?.length)
+      throw new Error("Mabadiliko hayajahifadhiwa. Kagua ruhusa za admin.");
+
+    msg("editVideoMsg", "Mabadiliko yamehifadhiwa.");
+    hide("editVideoBox", true);
+    await loadAdminVideos();
+    await loadVideos();
+  } catch(e) {
+    msg("editVideoMsg", "Imeshindikana: " + errorText(e));
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function loadAdminPayments() {
+  if (profile?.role !== "admin")
+    return msg("adminMsg", "Huna ruhusa ya admin.");
+
+  const area = $("adminPayments");
+  area.textContent = "Inapakia maombi...";
+
+  try {
+    const r = await db.rpc("admin_get_video_token_payments");
+    if (r.error) throw r.error;
+
+    if (!r.data?.length) {
+      area.textContent = "Hakuna maombi ya malipo.";
+      return;
+    }
+
+    area.replaceChildren();
+
+    r.data.forEach(p => {
+      const item = document.createElement("div");
+      item.className = "admin-video-row";
+
+      const info = document.createElement("p");
+      info.textContent =
+        (p.full_name || "Mtumiaji") +
+        " | TSh " + p.amount_tzs +
+        " | Simu: " + p.payer_phone +
+        " | Ref: " + p.transaction_reference +
+        " | Hali: " + p.status;
+
+      item.appendChild(info);
+
+      if (p.status === "pending") {
+        const approve = document.createElement("button");
+        approve.textContent = "THIBITISHA MALIPO";
+        approve.addEventListener("click", () =>
+          reviewPayment(p.payment_id,"approve"));
+
+        const reject = document.createElement("button");
+        reject.className = "secondary";
+        reject.textContent = "KATAA OMBI";
+        reject.addEventListener("click", () =>
+          reviewPayment(p.payment_id,"reject"));
+
+        item.append(approve,reject);
+      }
+
+      area.appendChild(item);
+    });
+  } catch(e) {
+    area.textContent = "Hitilafu: " + errorText(e);
+  }
+}
+
+async function reviewPayment(paymentId, decision) {
+  const question = decision === "approve"
+    ? "Umethibitisha fedha zimeingia kweli?"
+    : "Unataka kukataa ombi hili?";
+
+  if (!confirm(question)) return;
+
+  try {
+    const r = await db.rpc("admin_review_payment", {
+      p_payment_id:paymentId,
+      p_decision:decision
+    });
+
+    if (r.error) throw r.error;
+
+    msg("adminMsg", r.data?.message || "Ombi limeshughulikiwa.");
+    await loadAdminPayments();
+    await loadApp();
+  } catch(e) {
+    msg("adminMsg", "Hitilafu: " + errorText(e));
+  }
+}
 
 init();
 })();
 </script>
 </body>
 </html>
-
